@@ -7,6 +7,8 @@ Original file is located at
     https://colab.research.google.com/gist/qisashasanudin/4525c4f3b392a0a0fb1bc02acb8c19c7/belajar-tensorflow.ipynb
 """
 
+# Image Classification
+
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
@@ -21,6 +23,7 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat','Sandal', '
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 
+
 model = keras.Sequential([keras.layers.Flatten(input_shape=(28,28)),
                           keras.layers.Dense(128, activation="relu"),
                           keras.layers.Dense(10, activation="softmax")])
@@ -33,7 +36,9 @@ model.fit(train_images, train_labels, epochs=5)
 
 model.save("model_image_classification.h5")
 
-model = keras.models.load_model("model_image_classification.h5")
+
+#model = keras.models.load_model("model_image_classification.h5")
+
 
 prediction = model.predict(test_images)
 
@@ -44,28 +49,7 @@ for i in range(5):
     plt.title("Prediction : " + class_names[np.argmax(prediction[i])])
     plt.show()
 
-"""First run for creating model:
-
-
-
-model = keras.Sequential([keras.layers.Flatten(input_shape=(28,28)),
-                          keras.layers.Dense(128, activation="relu"),
-                          keras.layers.Dense(10, activation="softmax")])
-
-model.compile(optimizer="adam", 
-              loss="sparse_categorical_crossentropy", 
-              metrics=["accuracy"])
-
-model.fit(train_images, train_labels, epochs=5)
-
-model.save("model_image_classification.h5")
-
-
-
-Next run (model sudah melakukan training) :
-
-model = keras.models.load_model("model_image_classification.h5")
-"""
+# Text Classification
 
 import tensorflow as tf
 from tensorflow import keras
@@ -123,7 +107,7 @@ print(results)
 
 model.save("model_text_classification.h5")
 
-model = keras.models.load_model("model_text_classification.h5")
+#model = keras.models.load_model("model_text_classification.h5")
 
 with open("test.txt", encoding="utf-8") as f:
     for line in f.readlines():
@@ -134,35 +118,3 @@ with open("test.txt", encoding="utf-8") as f:
         print(line)
         print(encode)
         print(predict[0])
-
-"""First run for creating model:
-
-
-
-model = keras.Sequential()
-model.add(keras.layers.Embedding(88000, 16))
-model.add(keras.layers.GlobalAveragePooling1D())
-model.add(keras.layers.Dense(16, activation="relu"))
-model.add(keras.layers.Dense(1, activation="sigmoid"))
-
-model.summary()
-
-model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
-
-x_val = train_data[:10000]
-x_train = train_data[10000:]
-
-y_val = train_labels[:10000]
-y_train = train_labels[10000:]
-
-fitModel = model.fit(x_train, y_train, epochs=40, batch_size=512, validation_data=(x_val, y_val), verbose=1)
-
-results = model.evaluate(test_data, test_labels)
-print(results)
-
-model.save("model_text_classification.h5")
-
-Next run (model sudah melakukan training) :
-
-model = keras.models.load_model("model_text_classification.h5")
-"""
